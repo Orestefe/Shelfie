@@ -1,30 +1,40 @@
 import React, { Component } from "react";
 
-class BookInput extends Component {
+class EditInput extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			title: "",
+			author: "",
+			pages: "",
+			readStatus: "",
+		};
+	}
+	componentDidMount() {
+		this.refs.title.focus();
+	}
+
+	componentWillReceiveProps(nextProps) {
+		this.setState({
+			title: nextProps.title,
+			author: nextProps.author,
+			pages: nextProps.pages,
+			readStatus: nextProps.readStatus,
+		});
+	}
 	handleSubmit = e => {
 		e.preventDefault();
 	};
 
-	addBook() {
-		let newBook = {
-			title: this.refs.title.value,
-			author: this.refs.author.value,
-			pages: this.refs.pages.value,
-			readStatus: this.refs.readStatus.value,
-			id: Date.now(),
-		};
-		this.props.addBook(newBook);
-	}
-
-	componentDidMount() {
-		this.refs.title.focus();
+	editBook(){
+		
 	}
 
 	render() {
 		return (
 			<div className="modal">
 				<div className="modal-content">
-					<span onClick={this.props.toggleInput} className="close">
+					<span onClick={this.props.toggleEdit} className="close">
 						&times;
 					</span>
 					<header className="text-center">
@@ -33,11 +43,17 @@ class BookInput extends Component {
 					<form onSubmit={this.handleSubmit} className="ui form flex-form">
 						<div className="field">
 							<label>Title</label>
-							<input placeholder="Enter the title" type="text" ref="title" />
+							<input
+								value={this.state.title}
+								placeholder="Enter the title"
+								type="text"
+								ref="title"
+							/>
 						</div>
 						<div className="field">
 							<label>Author</label>
 							<input
+								value={this.state.author}
 								placeholder="Enter the author's name"
 								type="text"
 								ref="author"
@@ -47,6 +63,7 @@ class BookInput extends Component {
 						<div className="field">
 							<label>Pages</label>
 							<input
+								value={this.state.pages}
 								placeholder="Enter the number of pages"
 								type="number"
 								ref="pages"
@@ -64,7 +81,6 @@ class BookInput extends Component {
 
 						<div className="field">
 							<button
-								onClick={this.addBook.bind(this)}
 								type="submit"
 								className="ui button button-center btn--add">
 								Save
@@ -77,4 +93,4 @@ class BookInput extends Component {
 	}
 }
 
-export default BookInput;
+export default EditInput;
